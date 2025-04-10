@@ -1,7 +1,3 @@
-/**
- *
- * @author Marcos Altamirano
- */
 class ArticuloVenta {
     private Producto producto;
     private int cantidad;
@@ -25,7 +21,7 @@ class ArticuloVenta {
     }
     private void validarDatos() {
         if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad de artículos debe ser mayor que cero.");
+            throw new IllegalArgumentException("La cantidad de articulos debe ser mayor que cero.");
         }
     }
 }

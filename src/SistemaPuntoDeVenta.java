@@ -10,7 +10,7 @@ public class SistemaPuntoDeVenta {
     private static final List<Venta> ventas = new ArrayList<>();
 
     public static void main(String[] args) {
-        // Inicializar el inventario con productos de ejemplo
+        // Inicializa el inventario con productos
         inicializarInventario();
 
         // Menú principal del sistema
@@ -21,7 +21,7 @@ public class SistemaPuntoDeVenta {
         }
     }
 
-    // Método para inicializar el inventario con productos de ejemplo
+    //  añade informacion al inventario con productos de ejemplo
     private static void inicializarInventario() {
         try {
             inventario.agregarProducto(new Producto("Laptop", "Computadora portatil", 1200.0, 10));
@@ -31,25 +31,23 @@ public class SistemaPuntoDeVenta {
             inventario.agregarProducto(new Producto("Impresora", "Impresora laser", 200, 5));
         } catch (IllegalArgumentException e) {
             System.out.println("Error al inicializar el inventario: " + e.getMessage());
-            // Se podría considerar terminar el programa aquí, dependiendo de la gravedad del error.
-            // Por ahora, se deja que el programa continúe, pero con un inventario posiblemente incompleto.
         }
     }
 
-    // Método para mostrar el menú principal
+    // Muestra el menu principal
     private static void mostrarMenu() {
         System.out.println("\nSistema de Punto de Venta");
-        System.out.println("1. Mostrar Inventario");
-        System.out.println("2. Agregar Producto al Inventario");
-        System.out.println("3. Actualizar Stock de Producto");
-        System.out.println("4. Realizar Venta");
-        System.out.println("5. Mostrar Detalles de Venta");
-        System.out.println("6. Mostrar todas las Ventas");
+        System.out.println("1. Mostrar inventario");
+        System.out.println("2. Agregar producto al inventario");
+        System.out.println("3. Actualizar stock de producto");
+        System.out.println("4. Realizar venta");
+        System.out.println("5. Mostrar detalles de venta");
+        System.out.println("6. Mostrar todas las ventas");
         System.out.println("7. Salir");
-        System.out.print("Ingrese su opción: ");
+        System.out.print("Ingrese su opcion: ");
     }
 
-    // Método para obtener la opción del usuario con manejo de excepciones
+    // Obtiene la opcion del usuario
     private static int obtenerOpcion() {
         while (true) {
             try {
@@ -57,12 +55,12 @@ public class SistemaPuntoDeVenta {
                 int opcion = Integer.parseInt(input);
                 return opcion;
             } catch (NumberFormatException e) {
-                System.out.print("Entrada inválida. Por favor, ingrese un número: ");
+                System.out.print("Entrada invalida. Por favor, ingrese un numero: ");
             }
         }
     }
 
-    // Método para ejecutar la opción seleccionada por el usuario
+    // Ejecuta la opcion seleccionada por el usuario
     private static void ejecutarOpcion(int opcion) {
         try {
             switch (opcion) {
@@ -89,14 +87,14 @@ public class SistemaPuntoDeVenta {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, intente de nuevo.");
+                    System.out.println("Opción invalida. Por favor, intente de nuevo.");
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage()); // Captura y muestra el mensaje de la excepción
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
-    // Método para agregar un nuevo producto al inventario
+    // Agregar un nuevo producto al inventario
     private static void agregarProducto() {
         System.out.println("\nAgregar Producto al Inventario");
         System.out.print("Ingrese el nombre del producto: ");
@@ -115,7 +113,7 @@ public class SistemaPuntoDeVenta {
         }
     }
 
-    // Método para obtener un precio válido del usuario
+    // Valida y obtiene precio válido del usuario
     private static double obtenerPrecioValido() {
         double precio = 0;
         boolean valido = false;
@@ -129,13 +127,13 @@ public class SistemaPuntoDeVenta {
                     System.out.println("El precio debe ser mayor o igual a cero.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
+                System.out.println("Entrada invalida. Por favor, ingrese un numero valido.");
             }
         }
         return precio;
     }
 
-    // Método para obtener una cantidad válida del usuario
+    // Valida y obtiene cantidad de stok del usuario
     private static int obtenerCantidadValida() {
         int cantidad = 0;
         boolean valido = false;
@@ -149,16 +147,16 @@ public class SistemaPuntoDeVenta {
                     System.out.println("La cantidad debe ser mayor o igual a cero.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, ingrese un número entero válido.");
+                System.out.println("Entrada inválida. Por favor, ingrese un número entero valido.");
             }
         }
         return cantidad;
     }
 
-    // Método para actualizar el stock de un producto
+    // Actualiza el stock de un producto
     private static void actualizarStockProducto() {
         inventario.mostrarInventario();
-        if (inventario.buscarProductoPorNombre("") == null) { //se cambio la busqueda a nombre para evitar errores
+        if (inventario.buscarProductoPorNombre("") == null) {
             return;
         }
 
@@ -177,7 +175,7 @@ public class SistemaPuntoDeVenta {
         inventario.actualizarStock(idProducto, cantidad, cantidad > 0);
     }
 
-    // Método para realizar una venta
+    // Realiza la venta de un producto
     private static void realizarVenta() {
         if (inventario.buscarProductoPorNombre("") == null) {
             System.out.println("No hay productos en el inventario para realizar una venta.");
@@ -206,9 +204,9 @@ public class SistemaPuntoDeVenta {
                 try {
                     ArticuloVenta articulo = new ArticuloVenta(producto, cantidad);
                     venta.agregarArticulo(articulo);
-                    System.out.println("Artículo agregado a la venta.");
+                    System.out.println("Articulo agregado a la venta.");
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Error al agregar artículo: " + e.getMessage());
+                    System.out.println("Error al agregar articulo: " + e.getMessage());
                 }
 
             } else {
@@ -218,7 +216,7 @@ public class SistemaPuntoDeVenta {
         if (venta.calcularTotal() > 0) {
             ventas.add(venta);
             venta.mostrarDetalles();
-            System.out.println("Venta realizada con éxito.");
+            System.out.println("Venta realizada con exito.");
         } else {
             System.out.println("Venta cancelada, no se agregaron productos.");
         }
@@ -237,13 +235,13 @@ public class SistemaPuntoDeVenta {
         for (Venta venta : ventas) {
             if (venta.getIdVenta() == idVenta) {
                 venta.mostrarDetalles();
-                return; // Sale del método después de mostrar la venta
+                return;
             }
         }
-        System.out.println("Venta no encontrada."); // Mensaje si no se encuentra la venta
+        System.out.println("Venta no encontrada.");
     }
 
-    // Método para mostrar todas las ventas
+    // Muestra todas las ventas
     private static void mostrarTodasLasVentas() {
         if (ventas.isEmpty()) {
             System.out.println("No hay ventas registradas.");
