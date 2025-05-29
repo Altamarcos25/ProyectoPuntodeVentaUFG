@@ -3,20 +3,30 @@
  * @author Marcos Altamirano
  */
 class Producto {
-    private final String nombre;
+     private final String nombre;
     private final String descripcion;
     private final double precio;
     private int cantidadEnStock;
     private final int id;
     private static int contadorIds = 1;
 
-    // Constructor
+    // Constructor para nuevos productos
     public Producto(String nombre, String descripcion, double precio, int cantidadEnStock) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidadEnStock = cantidadEnStock;
         this.id = contadorIds++;
+        validarDatos();
+    }
+
+    // Constructor para productos cargados desde archivo (con ID específico)
+    public Producto(int id, String nombre, String descripcion, double precio, int cantidadEnStock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidadEnStock = cantidadEnStock;
         validarDatos();
     }
 
@@ -38,6 +48,15 @@ class Producto {
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    // Métodos para manejar el contador de IDs (necesario para la persistencia)
+    public static int getContadorIds() {
+        return contadorIds;
+    }
+
+    public static void setContadorIds(int nuevoContador) {
+        contadorIds = nuevoContador;
     }
 
     // Disminuye el stock del producto

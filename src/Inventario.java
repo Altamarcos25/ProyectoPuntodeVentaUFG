@@ -3,16 +3,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Inventario {
-    private final List<Producto> productos;
+   private final List<Producto> productos;
     
-    //Constructor
+    // Constructor
     public Inventario() {
         this.productos = new ArrayList<>();
     }
 
+    // Obtiene la lista de productos (para persistencia)
+    public List<Producto> getProductos() {
+        return new ArrayList<>(productos); // Retorna una copia
+    }
+
+    // Carga productos desde una lista (usado al cargar desde archivo)
+    public void cargarProductos(List<Producto> productosGuardados) {
+        this.productos.clear();
+        this.productos.addAll(productosGuardados);
+    }
+
     // Agregar un producto al inventario
     public void agregarProducto(Producto producto) {
-        
         if (buscarProductoPorNombre(producto.getNombre()) != null) {
             throw new IllegalArgumentException("Ya existe un producto con el nombre '" + producto.getNombre() + "'.");
         }
@@ -29,7 +39,7 @@ class Inventario {
         return null;
     }
 
-     // Método para buscar un producto por su nombre
+    // Método para buscar un producto por su nombre
     public Producto buscarProductoPorNombre(String nombre) {
         for (Producto producto : productos) {
             if (producto.getNombre().equalsIgnoreCase(nombre)) {
@@ -37,6 +47,11 @@ class Inventario {
             }
         }
         return null;
+    }
+
+    // Verifica si el inventario tiene productos
+    public boolean tieneProductos() {
+        return !productos.isEmpty();
     }
 
     // Muestra todos los productos del inventario
@@ -72,12 +87,24 @@ class Inventario {
             System.out.println("Producto no encontrado.");
         }
     }
-     // Obtiene el precio de un producto por su ID
+
+    // Obtiene el precio de un producto por su ID
     public double obtenerPrecioProducto(int id) {
         Producto producto = buscarProductoPorId(id);
         if (producto != null) {
             return producto.getPrecio();
         }
         return -1;
+    }
+
+    // Guarda el inventario en archivo
+    public void guardarEnArchivo() {
+        GestorArchivos.guardarProductos(productos);
+    }
+
+    // Carga el inventario desde archivo
+    public void cargarDesdeArchivo() {
+        List<Producto> productosGuardados = GestorArchivos.cargarProductos();
+        cargarProductos(productosGuardados);
     }
 }
