@@ -2,21 +2,27 @@
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Marcos Altamirano
- */
 class Inventario {
-    private final List<Producto> productos;
-
-    // Constructor de la clase Inventario
+   private final List<Producto> productos;
+    
+    // Constructor
     public Inventario() {
         this.productos = new ArrayList<>();
     }
 
-    // Método para agregar un producto al inventario
+    // Obtiene la lista de productos (para persistencia)
+    public List<Producto> getProductos() {
+        return new ArrayList<>(productos); // Retorna una copia
+    }
+
+    // Carga productos desde una lista (usado al cargar desde archivo)
+    public void cargarProductos(List<Producto> productosGuardados) {
+        this.productos.clear();
+        this.productos.addAll(productosGuardados);
+    }
+
+    // Agregar un producto al inventario
     public void agregarProducto(Producto producto) {
-        // Verifica si ya existe un producto con el mismo nombre
         if (buscarProductoPorNombre(producto.getNombre()) != null) {
             throw new IllegalArgumentException("Ya existe un producto con el nombre '" + producto.getNombre() + "'.");
         }
@@ -33,7 +39,7 @@ class Inventario {
         return null;
     }
 
-     // Método para buscar un producto por su nombre
+    // Método para buscar un producto por su nombre
     public Producto buscarProductoPorNombre(String nombre) {
         for (Producto producto : productos) {
             if (producto.getNombre().equalsIgnoreCase(nombre)) {
@@ -43,10 +49,15 @@ class Inventario {
         return null;
     }
 
-    // Método para mostrar todos los productos del inventario
+    // Verifica si el inventario tiene productos
+    public boolean tieneProductos() {
+        return !productos.isEmpty();
+    }
+
+    // Muestra todos los productos del inventario
     public void mostrarInventario() {
         if (productos.isEmpty()) {
-            System.out.println("El inventario está vacío.");
+            System.out.println("El inventario está vacio.");
             return;
         }
         System.out.println("\nInventario:");
@@ -57,7 +68,7 @@ class Inventario {
         System.out.println("--------------------");
     }
 
-    // Método para actualizar el stock de un producto por su ID
+    // Actualiza el stock de un producto por su ID
     public void actualizarStock(int id, int cantidad, boolean aumentar) {
         Producto producto = buscarProductoPorId(id);
         if (producto != null) {
@@ -76,12 +87,24 @@ class Inventario {
             System.out.println("Producto no encontrado.");
         }
     }
-     // Método para obtener el precio de un producto por su ID
+
+    // Obtiene el precio de un producto por su ID
     public double obtenerPrecioProducto(int id) {
         Producto producto = buscarProductoPorId(id);
         if (producto != null) {
             return producto.getPrecio();
         }
-        return -1; // Devuelve -1 si el producto no se encuentra
+        return -1;
+    }
+
+    // Guarda el inventario en archivo
+    public void guardarEnArchivo() {
+        GestorArchivos.guardarProductos(productos);
+    }
+
+    // Carga el inventario desde archivo
+    public void cargarDesdeArchivo() {
+        List<Producto> productosGuardados = GestorArchivos.cargarProductos();
+        cargarProductos(productosGuardados);
     }
 }
